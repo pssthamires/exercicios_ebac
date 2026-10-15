@@ -1,55 +1,45 @@
 #language: pt
 
-Funcionalidade: Configuração de produto na EBAC-SHOP
+Funcionalidade: Configurar produto
+  Como cliente da EBAC-SHOP
+  Quero configurar meu produto de acordo com meu tamanho e gosto
+  E escolher a quantidade
+  Para depois inserir no carrinho
 
-Como cliente da EBAC-SHOP
-Quero configurar meu produto de acordo com meu tamanho e gosto
-E escolher a quantidade
-Para depois inserir no carrinho
+  Contexto:
+    Dado que eu esteja na página de um produto
 
-Contexto:
-Dado que o usuário acessou a página de um produto
+  Cenário: Impedir inclusão sem selecionar a cor
+    Quando eu configurar o tamanho e a quantidade sem selecionar uma cor
+    E solicitar a inclusão no carrinho
+    Então o sistema deve informar que a cor é obrigatória
+    E o produto não deve ser adicionado ao carrinho
 
-Cenário: Validar obrigatoriedade da seleção de cor
-E selecionou um tamanho
-E informou a quantidade "1"
-Quando clicar no botão "Adicionar ao carrinho"
-Então o sistema deve exibir a mensagem "Selecione uma cor"
-E o produto não deve ser adicionado ao carrinho
+  Cenário: Impedir inclusão sem selecionar o tamanho
+    Quando eu configurar a cor e a quantidade sem selecionar um tamanho
+    E solicitar a inclusão no carrinho
+    Então o sistema deve informar que o tamanho é obrigatório
+    E o produto não deve ser adicionado ao carrinho
 
-Cenário: Validar obrigatoriedade da seleção de tamanho
-E selecionou uma cor
-E informou a quantidade "1"
-Quando clicar no botão "Adicionar ao carrinho"
-Então o sistema deve exibir a mensagem "Selecione um tamanho"
-E o produto não deve ser adicionado ao carrinho
+  Cenário: Impedir inclusão sem informar a quantidade
+    Quando eu selecionar uma cor e um tamanho sem informar a quantidade
+    E solicitar a inclusão no carrinho
+    Então o sistema deve informar que a quantidade é obrigatória
+    E o produto não deve ser adicionado ao carrinho
 
-Cenário: Validar obrigatoriedade da quantidade
-E selecionou uma cor
-E selecionou um tamanho
-Quando clicar no botão "Adicionar ao carrinho"
-Então o sistema deve exibir a mensagem "Informe a quantidade"
-E o produto não deve ser adicionado ao carrinho
+  Cenário: Impedir a compra de mais de 10 produtos
+    Quando eu selecionar uma cor e um tamanho e informar a quantidade "11"
+    E solicitar a inclusão no carrinho
+    Então o sistema não deve permitir a inclusão de 11 produtos
 
-Cenário: Validar limite máximo de produtos por venda
-E selecionou uma cor
-E selecionou um tamanho
-Quando informar a quantidade "11"
-Então o sistema deve exibir a mensagem "Quantidade máxima permitida é 10"
+  Cenário: Adicionar produto ao carrinho
+    Quando eu selecionar uma cor, um tamanho e informar a quantidade "2"
+    E solicitar a inclusão no carrinho
+    Então o produto deve ser adicionado ao carrinho
 
-Cenário: Adicionar produto ao carrinho com sucesso
-E selecionou uma cor
-E selecionou um tamanho
-Quando informar a quantidade "2"
-E clicar no botão "Adicionar ao carrinho"
-Então o produto deve ser adicionado ao carrinho com sucesso
-
-Cenário: Limpar configurações do produto
-E selecionou uma cor
-E selecionou um tamanho
-E informou a quantidade "2"
-Quando clicar no botão "Limpar"
-Então a cor deve voltar ao estado original
-E o tamanho deve voltar ao estado original
-E a quantidade deve voltar ao estado original
-
+  Cenário: Limpar as configurações do produto
+    Dado que eu tenha selecionado uma cor e um tamanho e informado a quantidade "2"
+    Quando eu solicitar a limpeza das configurações
+    Então a cor deve voltar ao estado original
+    E o tamanho deve voltar ao estado original
+    E a quantidade deve voltar ao estado original
