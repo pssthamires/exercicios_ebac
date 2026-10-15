@@ -1,5 +1,6 @@
-Funcionalidade: Cadastro no checkout
+#language: pt
 
+Funcionalidade: Tela de cadastro - Checkout
   Como cliente da EBAC-SHOP
   Quero concluir meu cadastro
   Para finalizar minha compra
@@ -7,48 +8,27 @@ Funcionalidade: Cadastro no checkout
   Contexto:
     Dado que eu esteja na tela de cadastro do checkout
 
-  Esquema do Cenário: Cadastro com dados válidos
-    Quando eu preencher o campo nome com "<nome>"
-    E preencher o campo sobrenome com "<sobrenome>"
-    E preencher o campo país com "<pais>"
-    E preencher o campo endereço com "<endereco>"
-    E preencher o campo cidade com "<cidade>"
-    E preencher o campo CEP com "<cep>"
-    E preencher o campo telefone com "<telefone>"
-    E preencher o campo e-mail com "<email>"
-    E clicar no botão "Finalizar Cadastro"
+  Cenário: Concluir cadastro com dados válidos
+    Quando eu preencher todos os campos obrigatórios com dados válidos
+    E solicitar a finalização do cadastro
     Então o cadastro deve ser concluído com sucesso
 
-    Exemplos:
-      | nome    | sobrenome | pais  | endereco         | cidade      | cep       | telefone      | email                |
-      | Thamires| Silva      | Brasil| Rua das Flores 10| São Paulo   | 06300-000 | 11999999999   | thamires@email.com   |
-      | Maria   | Souza      | Brasil| Av Brasil 200    | Rio de Janeiro | 22000-000 | 21988888888 | maria@email.com      |
-
-  Esquema do Cenário: Cadastro com e-mail inválido
-    Quando eu preencher todos os campos obrigatórios
+  Esquema do Cenário: Validar formato do e-mail no cadastro
+    Quando eu preencher os campos obrigatórios com dados válidos
     E informar o e-mail "<email>"
-    E clicar no botão "Finalizar Cadastro"
-    Então o sistema deve exibir a mensagem de erro "E-mail inválido"
+    E solicitar a finalização do cadastro
+    Então o sistema deve apresentar o resultado "<resultado>"
 
     Exemplos:
-      | email              |
-      | thamires@email     |
-      | thamires.com.br    |
-      | @email.com         |
-      | thamires@          |
+      | email                 | resultado                       |
+      | thamires@email.com    | cadastro aceito                 |
+      | maria.souza@gmail.com | cadastro aceito                 |
+      | thamires@email        | mensagem de erro                 |
+      | thamires.com.br       | mensagem de erro                 |
+      | @email.com            | mensagem de erro                 |
+      | thamires@             | mensagem de erro                 |
 
-  Esquema do Cenário: Cadastro com campos obrigatórios vazios
-    Quando eu deixar o campo "<campo>" vazio
-    E clicar no botão "Finalizar Cadastro"
-    Então o sistema deve exibir a mensagem de alerta "Campo obrigatório"
-
-    Exemplos:
-      | campo        |
-      | nome         |
-      | sobrenome    |
-      | país         |
-      | endereço     |
-      | cidade       |
-      | CEP          |
-      | telefone     |
-      | e-mail       |
+  Cenário: Impedir cadastro com campos obrigatórios vazios
+    Quando eu tentar finalizar o cadastro sem preencher os campos obrigatórios
+    Então o sistema deve exibir uma mensagem de alerta
+    E o cadastro não deve ser concluído
