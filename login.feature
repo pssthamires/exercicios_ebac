@@ -1,4 +1,4 @@
-# language: pt
+#language: pt
 
 Funcionalidade: Login na plataforma
   Como cliente da EBAC-SHOP
